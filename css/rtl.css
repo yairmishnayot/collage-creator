@@ -1,0 +1,10 @@
+/* RTL specific styles */
+html[dir="rtl"] {
+  /* RTL specific font adjustments if needed */
+}
+
+html[dir="ltr"] {
+  /* LTR specific adjustments if needed */
+}
+
+/* Any other RTL-specific overrides can go here */
