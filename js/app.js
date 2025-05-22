@@ -1,7 +1,5 @@
 // Main application logic
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM loaded, starting app...');
-  
   // DOM Elements
   const fileInput1 = document.getElementById('file-input1');
   const fileInput2 = document.getElementById('file-input2');
@@ -21,15 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const languageSwitcher = document.getElementById('language-switcher');
   const currentYearElement = document.getElementById('current-year');
 
-  // Debug: Check if elements exist
-  console.log('Elements found:', {
-    fileInput1: !!fileInput1,
-    fileInput2: !!fileInput2,
-    dropArea1: !!dropArea1,
-    dropArea2: !!dropArea2,
-    whatsappButton: !!whatsappButton
-  });
-
   // Set current year in footer
   currentYearElement.textContent = new Date().getFullYear();
 
@@ -45,26 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // File input change handlers
-  console.log('Setting up file input handlers...');
-  fileInput1.addEventListener('change', (e) => {
-    console.log('File input 1 changed:', e.target.files);
-    handleFileChange(e, 'image1', preview1, dropArea1);
-  });
-  fileInput2.addEventListener('change', (e) => {
-    console.log('File input 2 changed:', e.target.files);
-    handleFileChange(e, 'image2', preview2, dropArea2);
-  });
+  fileInput1.addEventListener('change', (e) => handleFileChange(e, 'image1', preview1, dropArea1));
+  fileInput2.addEventListener('change', (e) => handleFileChange(e, 'image2', preview2, dropArea2));
 
   // Click handlers for drop areas
-  console.log('Setting up click handlers...');
-  dropArea1.addEventListener('click', () => {
-    console.log('Drop area 1 clicked');
-    fileInput1.click();
-  });
-  dropArea2.addEventListener('click', () => {
-    console.log('Drop area 2 clicked');
-    fileInput2.click();
-  });
+  dropArea1.addEventListener('click', () => fileInput1.click());
+  dropArea2.addEventListener('click', () => fileInput2.click());
 
   // Drag and drop handlers
   setupDragAndDrop(dropArea1, fileInput1, 'image1', preview1);
@@ -86,13 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
    * Handles file input change events
    */
   function handleFileChange(event, imageKey, previewElement, dropAreaElement) {
-    console.log('handleFileChange called:', imageKey, event.target.files);
     const file = event.target.files[0];
     if (file) {
-      console.log('File found:', file.name, file.type, file.size);
       validateAndStoreImage(file, imageKey, previewElement, dropAreaElement);
-    } else {
-      console.log('No file found');
     }
   }
 
@@ -133,30 +104,23 @@ document.addEventListener('DOMContentLoaded', () => {
    * Validates and stores an image
    */
   function validateAndStoreImage(file, imageKey, previewElement, dropAreaElement) {
-    console.log('validateAndStoreImage called:', imageKey, file);
-    
     // Validate file size
     if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      console.log('File too large:', file.size);
       showError(i18n.t('maxSizeExceeded'));
       return;
     }
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      console.log('Invalid file type:', file.type);
       showError(i18n.t('invalidFileType'));
       return;
     }
 
-    console.log('File validation passed');
-    
     // Clear error
     clearError();
 
     // Store the image
     images[imageKey] = file;
-    console.log('Image stored:', imageKey, images);
 
     // Show preview
     displayImagePreview(file, previewElement, dropAreaElement);
@@ -277,21 +241,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const hasText = collageText.length > 0;
       
       // Detect image orientation
-      const isImg1Portrait = img1.height > img1.width;
-      const isImg2Portrait = img2.height > img2.width;
       const isImg1Landscape = img1.width > img1.height;
       const isImg2Landscape = img2.width > img2.height;
-      
-      // Debug: log image dimensions and orientations
-      console.log('Image 1:', img1.width + 'x' + img1.height, isImg1Portrait ? 'Portrait' : (isImg1Landscape ? 'Landscape' : 'Square'));
-      console.log('Image 2:', img2.width + 'x' + img2.height, isImg2Portrait ? 'Portrait' : (isImg2Landscape ? 'Landscape' : 'Square'));
       
       // Determine layout based on image orientations
       // If both images are landscape (wide), place them on top of each other
       // Otherwise, place them side by side
       const shouldStackVertically = isImg1Landscape && isImg2Landscape;
-      
-      console.log('Should stack vertically:', shouldStackVertically);
       
       // Set canvas dimensions based on layout
       let width, height, imgSection, textSection;

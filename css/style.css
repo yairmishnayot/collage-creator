@@ -309,11 +309,11 @@ textarea {
 }
 
 .whatsapp-button {
-  background-color: #25d366; /* WhatsApp green */
+  background-color: #007bff; /* Blue share button */
 }
 
 .whatsapp-button:hover {
-  background-color: #128c7e;
+  background-color: #0056b3;
 }
 
 .new-button {
