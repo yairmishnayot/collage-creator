@@ -21,7 +21,7 @@ A web application for creating image collages with text. This application allows
 
 ## Live Demo
 
-You can try the Collage Creator here: [GitHub Pages Demo](#) (Add your GitHub Pages URL after deployment)
+You can try the Collage Creator here: [GitHub Pages Demo](https://yairmishnayot.github.io/collage-creator/) (Add your GitHub Pages URL after deployment)
 
 ## How to Run Locally
 
@@ -30,7 +30,7 @@ Since this is a static website with no build steps required, you can run it loca
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/yairmishnayot/collage-creator.git
 cd collage-creator
 ```
 
