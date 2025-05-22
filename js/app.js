@@ -236,24 +236,54 @@ document.addEventListener('DOMContentLoaded', () => {
       const collageText = collageTextInput.value.trim();
       const hasText = collageText.length > 0;
       
-      // Set canvas dimensions
-      const width = Math.max(img1.width, img2.width) * 2;
-      const imageHeightMax = Math.max(img1.height, img2.height);
+      // Detect image orientation
+      const isImg1Portrait = img1.height > img1.width;
+      const isImg2Portrait = img2.height > img2.width;
+      const isImg1Landscape = img1.width > img1.height;
+      const isImg2Landscape = img2.width > img2.height;
       
-      let imgSection;
-      let textSection;
-      let height;
+      // Debug: log image dimensions and orientations
+      console.log('Image 1:', img1.width + 'x' + img1.height, isImg1Portrait ? 'Portrait' : (isImg1Landscape ? 'Landscape' : 'Square'));
+      console.log('Image 2:', img2.width + 'x' + img2.height, isImg2Portrait ? 'Portrait' : (isImg2Landscape ? 'Landscape' : 'Square'));
       
-      if (hasText) {
-        // If there's text, allocate space for it (85:15 ratio)
-        imgSection = imageHeightMax * 0.85; // 85% of original height for images
-        textSection = imageHeightMax * 0.15; // 15% of original height for text
-        height = imgSection + textSection;
+      // Determine layout based on image orientations
+      // If both images are landscape (wide), place them on top of each other
+      // Otherwise, place them side by side
+      const shouldStackVertically = isImg1Landscape && isImg2Landscape;
+      
+      console.log('Should stack vertically:', shouldStackVertically);
+      
+      // Set canvas dimensions based on layout
+      let width, height, imgSection, textSection;
+      
+      if (shouldStackVertically) {
+        // Vertical stacking for landscape images
+        width = Math.max(img1.width, img2.width);
+        const totalImageHeight = Math.max(img1.height, img2.height) * 2; // Stack two images
+        
+        if (hasText) {
+          imgSection = totalImageHeight * 0.85;
+          textSection = totalImageHeight * 0.15;
+          height = imgSection + textSection;
+        } else {
+          imgSection = totalImageHeight;
+          textSection = 0;
+          height = imgSection;
+        }
       } else {
-        // If there's no text, use all space for images
-        imgSection = imageHeightMax;
-        textSection = 0;
-        height = imgSection;
+        // Side by side for portrait images or mixed orientations
+        width = Math.max(img1.width, img2.width) * 2;
+        const imageHeightMax = Math.max(img1.height, img2.height);
+        
+        if (hasText) {
+          imgSection = imageHeightMax * 0.85;
+          textSection = imageHeightMax * 0.15;
+          height = imgSection + textSection;
+        } else {
+          imgSection = imageHeightMax;
+          textSection = 0;
+          height = imgSection;
+        }
       }
 
       canvas.width = width;
@@ -263,17 +293,31 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, width, height);
 
-      // Always draw images side by side (desktop style)
-      // In Hebrew (RTL), image1 on left, image2 on right
-      // In English (LTR), image1 on right, image2 on left
-      if (i18n.language === 'he') {
-        // Hebrew - RTL order
-        ctx.drawImage(img1, 0, 0, width / 2, imgSection);        // Image 1 on left
-        ctx.drawImage(img2, width / 2, 0, width / 2, imgSection); // Image 2 on right
+      // Place images based on layout and language direction
+      if (shouldStackVertically) {
+        // Vertical stacking for landscape images
+        const singleImgHeight = imgSection / 2;
+        
+        if (i18n.language === 'he') {
+          // Hebrew - RTL order: image1 on top, image2 on bottom
+          ctx.drawImage(img1, 0, 0, width, singleImgHeight);
+          ctx.drawImage(img2, 0, singleImgHeight, width, singleImgHeight);
+        } else {
+          // English - LTR order: image1 on bottom, image2 on top
+          ctx.drawImage(img2, 0, 0, width, singleImgHeight);
+          ctx.drawImage(img1, 0, singleImgHeight, width, singleImgHeight);
+        }
       } else {
-        // English - LTR order
-        ctx.drawImage(img1, width / 2, 0, width / 2, imgSection); // Image 1 on right
-        ctx.drawImage(img2, 0, 0, width / 2, imgSection);        // Image 2 on left
+        // Side by side for portrait images or mixed orientations
+        if (i18n.language === 'he') {
+          // Hebrew - RTL order: image1 on left, image2 on right
+          ctx.drawImage(img1, 0, 0, width / 2, imgSection);
+          ctx.drawImage(img2, width / 2, 0, width / 2, imgSection);
+        } else {
+          // English - LTR order: image1 on right, image2 on left
+          ctx.drawImage(img1, width / 2, 0, width / 2, imgSection);
+          ctx.drawImage(img2, 0, 0, width / 2, imgSection);
+        }
       }
 
       // Add text only if there is any
