@@ -1,81 +1,146 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>יוצר הקולאז'</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/rtl.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-</head>
-<body>
+
+    <!-- SEO and Social Media Meta Tags -->
+    <meta
+      name="description"
+      content="צור קולאז'ים מקצועיים מתמונות בקלות - תמיכה בעברית ואנגלית, גרירה ושחרור, והורדה מיידית"
+    />
+    <meta
+      name="keywords"
+      content="קולאז', תמונות, עיצוב, collage, images, design"
+    />
+    <meta name="author" content="Collage Creator" />
+
+    <!-- Open Graph Meta Tags for Facebook, LinkedIn, etc. -->
+    <meta property="og:title" content="יוצר הקולאז' - Collage Creator" />
+    <meta
+      property="og:description"
+      content="צור קולאז'ים מקצועיים מתמונות בקלות - תמיכה בעברית ואנגלית"
+    />
+    <meta property="og:image" content="./preview.png" />
+    <meta property="og:image:alt" content="Collage Creator Preview" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://yairmishnayot.github.io/collage-creator/"
+    />
+    <meta property="og:site_name" content="Collage Creator" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="יוצר הקולאז' - Collage Creator" />
+    <meta
+      name="twitter:description"
+      content="צור קולאז'ים מקצועיים מתמונות בקלות - תמיכה בעברית ואנגלית"
+    />
+    <meta name="twitter:image" content="./preview.png" />
+    <meta name="twitter:image:alt" content="Collage Creator Preview" />
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#4a6da7" />
+    <meta name="msapplication-TileColor" content="#4a6da7" />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/rtl.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
     <header class="app-header">
-        <h1 id="app-title">יוצר הקולאז'</h1>
-        <button id="language-switcher" class="language-switcher">English</button>
+      <h1 id="app-title">יוצר הקולאז'</h1>
+      <button id="language-switcher" class="language-switcher">English</button>
     </header>
 
     <main class="container">
-        <div id="creation-panel" class="creation-panel">
-            <div class="image-uploaders">
-                <div class="image-uploader">
-                    <p class="uploader-label" id="image1-label">תמונה 1</p>
-                    <div class="drop-area" id="drop-area1">
-                        <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
-                        </svg>
-                        <p id="upload-text1">העלאת תמונה</p>
-                        <p class="drag-text" id="drag-text1">או גרור ושחרר</p>
-                        <div class="image-preview" id="preview1"></div>
-                    </div>
-                    <input type="file" id="file-input1" class="file-input" accept="image/*">
-                </div>
+      <div id="creation-panel" class="creation-panel">
+        <div class="image-uploaders">
+          <div class="image-uploader">
+            <p class="uploader-label" id="image1-label">תמונה 1</p>
+            <div class="drop-area" id="drop-area1">
+              <svg
+                class="upload-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
+                />
+              </svg>
+              <p id="upload-text1">העלאת תמונה</p>
+              <p class="drag-text" id="drag-text1">או גרור ושחרר</p>
+              <div class="image-preview" id="preview1"></div>
+            </div>
+            <input
+              type="file"
+              id="file-input1"
+              class="file-input"
+              accept="image/*"
+            />
+          </div>
 
-                <div class="image-uploader">
-                    <p class="uploader-label" id="image2-label">תמונה 2</p>
-                    <div class="drop-area" id="drop-area2">
-                        <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
-                        </svg>
-                        <p id="upload-text2">העלאת תמונה</p>
-                        <p class="drag-text" id="drag-text2">או גרור ושחרר</p>
-                        <div class="image-preview" id="preview2"></div>
-                    </div>
-                    <input type="file" id="file-input2" class="file-input" accept="image/*">
-                </div>
+          <div class="image-uploader">
+            <p class="uploader-label" id="image2-label">תמונה 2</p>
+            <div class="drop-area" id="drop-area2">
+              <svg
+                class="upload-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
+                />
+              </svg>
+              <p id="upload-text2">העלאת תמונה</p>
+              <p class="drag-text" id="drag-text2">או גרור ושחרר</p>
+              <div class="image-preview" id="preview2"></div>
             </div>
-            
-            <div class="text-input">
-                <textarea id="collage-text" placeholder="הכנס טקסט לקולאז'" rows="3"></textarea>
-            </div>
-            
-            <div id="error-message" class="error-message"></div>
-            
-            <button id="create-button" class="create-button" disabled>
-                צור קולאז'
-            </button>
+            <input
+              type="file"
+              id="file-input2"
+              class="file-input"
+              accept="image/*"
+            />
+          </div>
         </div>
 
-        <div id="result-panel" class="collage-result hidden">
-            <div class="result-image-container">
-                <img id="result-image" alt="Collage Result" class="result-image">
-            </div>
-            <div class="result-actions">
-                <button id="download-button" class="download-button">
-                    הורד קולאז'
-                </button>
-                <button id="new-button" class="new-button">
-                    צור קולאז' חדש
-                </button>
-            </div>
+        <div class="text-input">
+          <textarea
+            id="collage-text"
+            placeholder="הכנס טקסט לקולאז'"
+            rows="3"
+          ></textarea>
         </div>
+
+        <div id="error-message" class="error-message"></div>
+
+        <button id="create-button" class="create-button" disabled>
+          צור קולאז'
+        </button>
+      </div>
+
+      <div id="result-panel" class="collage-result hidden">
+        <div class="result-image-container">
+          <img id="result-image" alt="Collage Result" class="result-image" />
+        </div>
+        <div class="result-actions">
+          <button id="download-button" class="download-button">
+            הורד קולאז'
+          </button>
+          <button id="new-button" class="new-button">צור קולאז' חדש</button>
+        </div>
+      </div>
     </main>
 
     <footer class="app-footer">
-        <p>&copy; <span id="current-year"></span> Collage Creator</p>
+      <p>&copy; <span id="current-year"></span> Collage Creator</p>
     </footer>
 
     <script src="js/translations.js"></script>
     <script src="js/i18n.js"></script>
     <script src="js/app.js"></script>
-</body>
+  </body>
 </html>
