@@ -1,5 +1,7 @@
 // Main application logic
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM loaded, starting app...');
+  
   // DOM Elements
   const fileInput1 = document.getElementById('file-input1');
   const fileInput2 = document.getElementById('file-input2');
@@ -10,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const collageTextInput = document.getElementById('collage-text');
   const createButton = document.getElementById('create-button');
   const downloadButton = document.getElementById('download-button');
+  const whatsappButton = document.getElementById('whatsapp-button');
   const newButton = document.getElementById('new-button');
   const errorMessage = document.getElementById('error-message');
   const creationPanel = document.getElementById('creation-panel');
@@ -17,6 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultImage = document.getElementById('result-image');
   const languageSwitcher = document.getElementById('language-switcher');
   const currentYearElement = document.getElementById('current-year');
+
+  // Debug: Check if elements exist
+  console.log('Elements found:', {
+    fileInput1: !!fileInput1,
+    fileInput2: !!fileInput2,
+    dropArea1: !!dropArea1,
+    dropArea2: !!dropArea2,
+    whatsappButton: !!whatsappButton
+  });
 
   // Set current year in footer
   currentYearElement.textContent = new Date().getFullYear();
@@ -33,12 +45,26 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // File input change handlers
-  fileInput1.addEventListener('change', (e) => handleFileChange(e, 'image1', preview1, dropArea1));
-  fileInput2.addEventListener('change', (e) => handleFileChange(e, 'image2', preview2, dropArea2));
+  console.log('Setting up file input handlers...');
+  fileInput1.addEventListener('change', (e) => {
+    console.log('File input 1 changed:', e.target.files);
+    handleFileChange(e, 'image1', preview1, dropArea1);
+  });
+  fileInput2.addEventListener('change', (e) => {
+    console.log('File input 2 changed:', e.target.files);
+    handleFileChange(e, 'image2', preview2, dropArea2);
+  });
 
   // Click handlers for drop areas
-  dropArea1.addEventListener('click', () => fileInput1.click());
-  dropArea2.addEventListener('click', () => fileInput2.click());
+  console.log('Setting up click handlers...');
+  dropArea1.addEventListener('click', () => {
+    console.log('Drop area 1 clicked');
+    fileInput1.click();
+  });
+  dropArea2.addEventListener('click', () => {
+    console.log('Drop area 2 clicked');
+    fileInput2.click();
+  });
 
   // Drag and drop handlers
   setupDragAndDrop(dropArea1, fileInput1, 'image1', preview1);
@@ -50,6 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Download button
   downloadButton.addEventListener('click', downloadCollage);
 
+  // WhatsApp button
+  whatsappButton.addEventListener('click', shareToWhatsApp);
+
   // New collage button
   newButton.addEventListener('click', resetCollage);
 
@@ -57,9 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
    * Handles file input change events
    */
   function handleFileChange(event, imageKey, previewElement, dropAreaElement) {
+    console.log('handleFileChange called:', imageKey, event.target.files);
     const file = event.target.files[0];
     if (file) {
+      console.log('File found:', file.name, file.type, file.size);
       validateAndStoreImage(file, imageKey, previewElement, dropAreaElement);
+    } else {
+      console.log('No file found');
     }
   }
 
@@ -100,23 +133,30 @@ document.addEventListener('DOMContentLoaded', () => {
    * Validates and stores an image
    */
   function validateAndStoreImage(file, imageKey, previewElement, dropAreaElement) {
+    console.log('validateAndStoreImage called:', imageKey, file);
+    
     // Validate file size
     if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      console.log('File too large:', file.size);
       showError(i18n.t('maxSizeExceeded'));
       return;
     }
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
+      console.log('Invalid file type:', file.type);
       showError(i18n.t('invalidFileType'));
       return;
     }
 
+    console.log('File validation passed');
+    
     // Clear error
     clearError();
 
     // Store the image
     images[imageKey] = file;
+    console.log('Image stored:', imageKey, images);
 
     // Show preview
     displayImagePreview(file, previewElement, dropAreaElement);
@@ -345,6 +385,52 @@ document.addEventListener('DOMContentLoaded', () => {
       createButton.disabled = false;
     } finally {
       createButton.textContent = i18n.t('createCollage');
+    }
+  }
+
+  /**
+   * Shares the collage to WhatsApp
+   */
+  async function shareToWhatsApp() {
+    try {
+      // Create a text message for WhatsApp
+      const text = i18n.language === 'he' 
+        ? 'שתף את הקולאז שלי שנוצר באפליקציית יוצר הקולאז!'
+        : 'Check out my collage created with Collage Creator!';
+      
+      // Try Web Share API first (for mobile devices)
+      if (navigator.share && navigator.canShare) {
+        // Convert image to blob for sharing
+        const response = await fetch(resultImage.src);
+        const blob = await response.blob();
+        const file = new File([blob], 'collage.png', { type: 'image/png' });
+        
+        const shareData = {
+          title: i18n.language === 'he' ? 'הקולאז שלי' : 'My Collage',
+          text: text,
+          files: [file]
+        };
+        
+        if (navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+          return;
+        }
+      }
+      
+      // Fallback: Open WhatsApp with text message
+      const encodedText = encodeURIComponent(text);
+      const whatsappUrl = `https://wa.me/?text=${encodedText}`;
+      
+      // Download the image first so user can attach it manually
+      downloadCollage();
+      
+      // Open WhatsApp
+      window.open(whatsappUrl, '_blank');
+      
+    } catch (error) {
+      console.error('Error sharing to WhatsApp:', error);
+      // Fallback: just download the image
+      downloadCollage();
     }
   }
 

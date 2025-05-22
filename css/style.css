@@ -308,6 +308,14 @@ textarea {
   background-color: #218838;
 }
 
+.whatsapp-button {
+  background-color: #25d366; /* WhatsApp green */
+}
+
+.whatsapp-button:hover {
+  background-color: #128c7e;
+}
+
 .new-button {
   background-color: var(--primary-color);
 }
@@ -325,34 +333,37 @@ textarea {
   .container {
     padding: 1rem;
   }
-
+  
   .image-uploaders {
     flex-direction: column;
     gap: 1rem;
   }
-
+  
   .creation-panel {
     padding: 1rem;
   }
-
+  
   .drop-area {
     min-height: 150px;
   }
-
+  
   .result-actions {
     flex-direction: column;
+    gap: 0.75rem;
   }
-
+  
   .result-actions button {
     width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
   }
-
+  
   /* Ensure preview images don't overflow on mobile */
   .image-preview img {
     max-width: 95%;
     max-height: 140px;
   }
-
+  
   /* Make text area bigger on mobile */
   .text-input textarea {
     min-height: 80px;

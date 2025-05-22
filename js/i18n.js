@@ -53,6 +53,7 @@ class I18n {
     document.getElementById('collage-text').placeholder = this.t('textPlaceholder');
     document.getElementById('create-button').textContent = this.t('createCollage');
     document.getElementById('download-button').textContent = this.t('downloadCollage');
+    document.getElementById('whatsapp-button').textContent = this.t('shareWhatsApp');
     document.getElementById('new-button').textContent = this.t('newCollage');
   }
 }
