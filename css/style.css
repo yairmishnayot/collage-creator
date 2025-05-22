@@ -14,18 +14,27 @@
 }
 
 body {
-  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', 'Arial Hebrew', sans-serif;
+  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", "Arial Hebrew", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
   background-color: var(--secondary-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+main {
+  flex: 1;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
+  width: 90%;
 }
 
 button {
@@ -48,7 +57,8 @@ button:disabled {
   cursor: not-allowed;
 }
 
-input, textarea {
+input,
+textarea {
   padding: 0.5rem;
   border: 1px solid var(--border-color);
   border-radius: 4px;
@@ -102,6 +112,7 @@ input, textarea {
   box-shadow: var(--box-shadow);
   padding: 2rem;
   max-width: 800px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -194,11 +205,11 @@ input, textarea {
   .drop-area {
     min-height: 200px; /* Ensure consistent height */
   }
-  
+
   .image-preview {
     padding: 10px;
   }
-  
+
   .image-preview img {
     max-width: 90%;
     max-height: 180px;
@@ -277,7 +288,7 @@ input, textarea {
   .result-image-container {
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   }
-  
+
   .result-image {
     max-height: 60vh;
   }
@@ -314,34 +325,34 @@ input, textarea {
   .container {
     padding: 1rem;
   }
-  
+
   .image-uploaders {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .creation-panel {
     padding: 1rem;
   }
-  
+
   .drop-area {
     min-height: 150px;
   }
-  
+
   .result-actions {
     flex-direction: column;
   }
-  
+
   .result-actions button {
     width: 100%;
   }
-  
+
   /* Ensure preview images don't overflow on mobile */
   .image-preview img {
     max-width: 95%;
     max-height: 140px;
   }
-  
+
   /* Make text area bigger on mobile */
   .text-input textarea {
     min-height: 80px;
